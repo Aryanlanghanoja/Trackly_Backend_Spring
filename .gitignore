@@ -34,3 +34,6 @@ build/
 
 ### Enviroment Variables ###
 .env
+
+### File Upload ###
+public
