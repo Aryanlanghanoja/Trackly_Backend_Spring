@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "${frontend.url}", allowCredentials = "true")
 public class WebController {
 
-    @GetMapping("/check")
+    @GetMapping("/")
     public String Default() {
         return "Welcome to the Trackly Lead Management API!";
     }

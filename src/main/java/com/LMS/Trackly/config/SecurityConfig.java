@@ -14,10 +14,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for dev/testing
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/public/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic(httpBasic -> {}); // Optionally enable HTTP Basic auth
+                        .anyRequest().permitAll() // Allow all requests without authentication
+                );
 
         return http.build();
     }
