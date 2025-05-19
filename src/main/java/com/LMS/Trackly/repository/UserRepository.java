@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByToken(String token);
 
+    List<User> findByRole(String employee);
+
 //    @Query("SELECT DISTINCT u FROM User u JOIN u.leads l WHERE l.leadId = :leadId")
 //    List<User> findUsersByLeadId(@Param("leadId") Integer leadId);
 //
