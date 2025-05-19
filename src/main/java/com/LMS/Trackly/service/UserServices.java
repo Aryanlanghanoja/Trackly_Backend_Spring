@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -79,6 +80,13 @@ public class UserServices {
     }
 
     /**
+     * Get the Users Having Role "Employee"
+     */
+    public List<User> getEmployee() {
+        return userRepository.findByRole("Employee");
+    }
+
+    /**
      * Authenticates a user with email and password.
      */
     public User login(String email, String rawPassword) {
@@ -89,9 +97,9 @@ public class UserServices {
 
         User user = userOptional.get();
 
-        if (!user.isVerified()) {
-            throw new RuntimeException("Email not verified");
-        }
+//        if (!user.isVerified()) {
+//            throw new RuntimeException("Email not verified");
+//        }
 
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new RuntimeException("Invalid email or password");

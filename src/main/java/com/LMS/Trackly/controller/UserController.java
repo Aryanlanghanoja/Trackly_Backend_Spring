@@ -1,9 +1,11 @@
 package com.LMS.Trackly.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpSession;
 
 import com.LMS.Trackly.dto.LoginRequest;
 import com.LMS.Trackly.model.User;
@@ -11,6 +13,8 @@ import com.LMS.Trackly.service.UserServices;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,16 +53,36 @@ public class UserController {
      * Authenticates a user with email and password.
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request, HttpSession session) {
         try {
             String email = request.getEmail();
             String password = request.getPassword();
+
+            // Authenticate user
             User user = userServices.login(email, password);
+
+            // Start session and store user details (like userId or email, NOT the password)
+            session.setAttribute("user", user);
+
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+//    /**
+//     * Get the Loggged in User
+//     */
+//
+//    @GetMapping("/get-user")
+//    public ResponseEntity<?> getLoggedInUser(HttpSession session) {
+//        User user = (User) session.getAttribute("user");
+//        if (user == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+//        }
+//        return ResponseEntity.ok(user);
+//    }
+
 
     /**
      * Initiates password reset process by sending email.
@@ -71,6 +95,15 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    /**
+     * Get Employee List
+     */
+    @GetMapping("/get-employees")
+    public ResponseEntity<?> getEmployees() {
+        List<User> employee = userServices.getEmployee();
+        return ResponseEntity.ok(employee); // ✅ Proper way to return the list
     }
 
     /**
