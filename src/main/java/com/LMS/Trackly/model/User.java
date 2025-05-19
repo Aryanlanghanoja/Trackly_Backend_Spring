@@ -1,97 +1,107 @@
 package com.LMS.Trackly.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({
+        "hibernateLazyInitializer", "handler"
+})
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer userId;
-
-    @Column(name = "user_name", nullable = false)
-    private String userName;
-
-    @Column(name = "name", nullable = false)
-    private String name;
+    private Integer id;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phone", nullable = false)
-    private String phone;
-
-    @Column(name = "role", nullable = false)
-    private String role;
-
-    @Column(name = "district", nullable = false)
-    private String district;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "profile_photo", nullable = true)
-    private String profilePhoto = "";
+    @Column(name = "role")
+    private String role;
 
-    @Column(name = "user_status", nullable = false)
-    private Boolean userStatus = true;
+    @Column(name = "district")
+    private String district;
 
-    @Column(name = "is_verified", nullable = false)
-    private Boolean isVerified = false;
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
 
-    @Column(name = "last_login", nullable = false)
-    private LocalDateTime lastLogin = LocalDateTime.now();
-
-    @Column(name = "token", nullable = true)
+    @Column(name = "token")
     private String token;
 
-    // Default constructor
-    public User() {}
+    @Column(name = "verified")
+    private Boolean verified;
+
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
+
+    // One User can have many Leads
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Lead> leads = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(String email, String username, String password, String role, String district, String phoneNumber) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.district = district;
+        this.phoneNumber = phoneNumber;
+        this.verified = false;
+    }
 
     // Getters and setters
-    public Integer getUserId() {
-        return userId;
-    }
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+
+    public Integer getId() {
+        return id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUsername() {
+        return username;
     }
-    public void setPhone(String phone) {
-        this.phone = phone;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {
         return role;
     }
+
     public void setRole(String role) {
         this.role = role;
     }
@@ -99,49 +109,49 @@ public class User {
     public String getDistrict() {
         return district;
     }
+
     public void setDistrict(String district) {
         this.district = district;
     }
 
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public String getProfilePhoto() {
-        return profilePhoto;
-    }
-    public void setProfilePhoto(String profilePhoto) {
-        this.profilePhoto = profilePhoto;
-    }
-
-    public Boolean getUserStatus() {
-        return userStatus;
-    }
-    public void setUserStatus(Boolean userStatus) {
-        this.userStatus = userStatus;
-    }
-
-    public Boolean getIsVerified() {
-        return isVerified;
-    }
-    public void setIsVerified(Boolean isVerified) {
-        this.isVerified = isVerified;
-    }
-
-    public LocalDateTime getLastLogin() {
-        return lastLogin;
-    }
-    public void setLastLogin(LocalDateTime lastLogin) {
-        this.lastLogin = lastLogin;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getToken() {
         return token;
     }
+
     public void setToken(String token) {
         this.token = token;
     }
+
+    public Boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public List<Lead> getLeads() {
+        return leads;
+    }
+
+    public void setLeads(List<Lead> leads) {
+
+    }
+
 }

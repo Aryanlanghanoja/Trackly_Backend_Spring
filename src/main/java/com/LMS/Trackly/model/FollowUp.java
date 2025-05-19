@@ -1,53 +1,67 @@
 package com.LMS.Trackly.model;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "follow_up")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({
+        "hibernateLazyInitializer", "handler"
+})
 public class FollowUp {
-
-    public FollowUp() {}
-
-    public FollowUp(Lead lead, int noOfFollowup, String conclusion, LocalDate nextFollowupDate, User user) {
-        this.lead = lead;
-        this.noOfFollowup = noOfFollowup;
-        this.conclusion = conclusion;
-        this.nextFollowupDate = nextFollowupDate;
-        this.user = user;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "follow_up_id")
-    private int followUpId;
+    @Column(name = "followup_id")
+    private Integer followUpId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "lead_id", nullable = false)
     private Lead lead;
 
-    @Column(name = "no_of_followup", nullable = false)
-    private int noOfFollowup;
+    @Column(name = "followup_count")
+    private Integer followupCount;
 
-    @Column(name = "conclusion", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "conclusion", length = 500)
     private String conclusion;
 
     @Column(name = "next_followup_date")
-    private LocalDate nextFollowupDate;
+    @Temporal(TemporalType.DATE)
+    private Date nextFollowupDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "username")
+    private String username;
 
-    // --- Getters and Setters ---
+    // Constructors
+    public FollowUp() {}
 
-    public int getFollowUpId() {
+    public FollowUp(Lead lead, Integer followupCount, String conclusion, Date nextFollowupDate, String username) {
+        this.lead = lead;
+        this.followupCount = followupCount;
+        this.conclusion = conclusion;
+        this.nextFollowupDate = nextFollowupDate;
+        this.username = username;
+    }
+
+    // Getters and Setters
+
+    public Integer getFollowUpId() {
         return followUpId;
     }
 
-    public void setFollowUpId(int followUpId) {
+    public void setFollowUpId(Integer followUpId) {
         this.followUpId = followUpId;
     }
 
@@ -59,12 +73,12 @@ public class FollowUp {
         this.lead = lead;
     }
 
-    public int getNoOfFollowup() {
-        return noOfFollowup;
+    public Integer getFollowupCount() {
+        return followupCount;
     }
 
-    public void setNoOfFollowup(int noOfFollowup) {
-        this.noOfFollowup = noOfFollowup;
+    public void setFollowupCount(Integer followupCount) {
+        this.followupCount = followupCount;
     }
 
     public String getConclusion() {
@@ -75,19 +89,19 @@ public class FollowUp {
         this.conclusion = conclusion;
     }
 
-    public LocalDate getNextFollowupDate() {
+    public Date getNextFollowupDate() {
         return nextFollowupDate;
     }
 
-    public void setNextFollowupDate(LocalDate nextFollowupDate) {
+    public void setNextFollowupDate(Date nextFollowupDate) {
         this.nextFollowupDate = nextFollowupDate;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

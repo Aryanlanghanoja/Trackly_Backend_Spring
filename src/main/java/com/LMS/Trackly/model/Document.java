@@ -1,4 +1,5 @@
 package com.LMS.Trackly.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -9,47 +10,41 @@ public class Document {
 
     public Document() {}
 
-    public Document(Lead lead, String docPath, String docName, String docDesc) {
-        this.lead = lead;
-        this.docPath = docPath;
-        this.docName = docName;
-        this.docDesc = docDesc;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "document_id")  // typo preserved for matching with DB column
-    private int documentId;
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lead_id", nullable = false)
-    private Lead lead;
+    @Column(name = "lead_id")
+    private Integer leadId;
 
-    @Column(name = "doc_path", nullable = false)
+    @Column(name = "doc_path")
     private String docPath;
 
-    @Column(name = "doc_name", nullable = false)
+    @Column(name = "doc_name")
     private String docName;
 
-    @Column(name = "doc_desc", columnDefinition = "TEXT")
+    @Column(name = "doc_desc")
     private String docDesc;
 
-    // --- Getters and Setters ---
+    @ManyToOne
+    @JoinColumn(name = "task_id")  // foreign key column in docs table
+    private Task task;
 
-    public int getDocumentId() {
-        return documentId;
+    // Getters and Setters
+    public Integer getId() {
+        return id;
     }
 
-    public void setDocumentId(int documentId) {
-        this.documentId = documentId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Lead getLead() {
-        return lead;
+    public Integer getLeadId() {
+        return leadId;
     }
 
-    public void setLead(Lead lead) {
-        this.lead = lead;
+    public void setLeadId(Integer leadId) {
+        this.leadId = leadId;
     }
 
     public String getDocPath() {
@@ -74,5 +69,13 @@ public class Document {
 
     public void setDocDesc(String docDesc) {
         this.docDesc = docDesc;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 }

@@ -1,75 +1,83 @@
 package com.LMS.Trackly.model;
 
-import com.LMS.Trackly.model.User;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "lead")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({
+        "hibernateLazyInitializer", "handler"
+})
 public class Lead {
-
     public Lead() {}
-
-    public Lead(User user, String source, LocalDate date, String client, String district,
-                String contactNumber, String email, String status) {
-        this.user = user;
-        this.source = source;
-        this.date = date;
-        this.client = client;
-        this.district = district;
-        this.contactNumber = contactNumber;
-        this.email = email;
-        this.status = status;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lead_id")
-    private int leadId;
+    private Integer leadId;
+
+    @Column(name = "emp_name", length = 100)
+    private String emp_name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id")  // Foreign key in the Lead table
     private User user;
 
-    @Column(name = "source", nullable = false)
+
+    @Column(name = "source", nullable = false, length = 100)
     private String source;
 
     @Column(name = "date", nullable = false)
-    private LocalDate date = LocalDate.now();
+    private Date date;
 
-    @Column(name = "client", nullable = false)
+    @Column(name = "client", nullable = false, length = 100)
     private String client;
 
-    @Column(name = "district", nullable = false)
+    @Column(name = "district", nullable = false, length = 100)
     private String district;
 
-    @Column(name = "contact_number", nullable = false)
+    @Column(name = "contact_number", nullable = false, length = 15)
     private String contactNumber;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 150)
     private String email;
 
-    @Column(name = "status", nullable = false)
-    private String status = "Active";
+    @Column(name = "status", nullable = false, length = 50)
+    private String status;
 
-    // --- Getters and Setters ---
+    @Column(name = "assignedTo", length = 50)
+    private String assignedTo;
 
-    public int getLeadId() {
+    public Lead(Integer leadId, String emp_name, String source, Date date, String client, String district, String contact_number, String email, String status, String assignedTo) {
+        this.leadId = leadId;
+        this.emp_name = emp_name;
+        this.source = source;
+        this.date = date;
+        this.client = client;
+        this.district = district;
+        this.contactNumber = contact_number;
+        this.email = email;
+        this.status = status;
+        this.assignedTo = assignedTo;
+    }
+
+    public Integer getLeadId() {
         return leadId;
     }
 
-    public void setLeadId(int leadId) {
+    public void setLeadId(Integer leadId) {
         this.leadId = leadId;
     }
 
-    public User getUser() {
-        return user;
+    public String getEmp_name() {
+        return emp_name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setEmp_name(String emp_name) {
+        this.emp_name = emp_name;
     }
 
     public String getSource() {
@@ -80,11 +88,11 @@ public class Lead {
         this.source = source;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -104,12 +112,12 @@ public class Lead {
         this.district = district;
     }
 
-    public String getContactNumber() {
+    public String getContact_number() {
         return contactNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setContact_number(String contact_number) {
+        this.contactNumber = contact_number;
     }
 
     public String getEmail() {
@@ -126,5 +134,13 @@ public class Lead {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
     }
 }

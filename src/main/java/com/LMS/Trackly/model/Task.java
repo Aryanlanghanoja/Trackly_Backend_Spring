@@ -1,39 +1,39 @@
 package com.LMS.Trackly.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.*;
-import java.time.LocalDate;
+
+import java.util.Collection;
+import java.util.Date;
 
 @Entity
-@Table(name = "task")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "taskId")
+    private int taskId;
 
-    public Task() {}
+    @ManyToOne
+    @JoinColumn(name="followup_id", nullable = false)
+    private FollowUp followUp;
 
-    public Task(FollowUp followUp, LocalDate deadline, String description) {
+    @Column(name = "deadLine")
+    private Date deadline;
+
+    @Column(name="description")
+    private String description;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<Document> documents;
+
+    public Task(){
+
+    }
+    public Task(int taskId, FollowUp followUp, Date deadline, String description) {
+        this.taskId = taskId;
         this.followUp = followUp;
         this.deadline = deadline;
         this.description = description;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id")
-    private int taskId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "follow_up_id", nullable = false)
-    private FollowUp followUp;
-
-    @Column(name = "deadline", nullable = false)
-    private LocalDate deadline;
-
-    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
-    private String description;
-
-    // --- Getters and Setters ---
 
     public int getTaskId() {
         return taskId;
@@ -51,11 +51,11 @@ public class Task {
         this.followUp = followUp;
     }
 
-    public LocalDate getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 
@@ -65,5 +65,13 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Collection<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(Collection<Document> documents) {
+        this.documents = documents;
     }
 }
