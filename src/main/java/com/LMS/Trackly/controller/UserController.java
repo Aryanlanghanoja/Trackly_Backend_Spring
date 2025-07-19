@@ -70,18 +70,18 @@ public class UserController {
         }
     }
 
-//    /**
-//     * Get the Loggged in User
-//     */
-//
-//    @GetMapping("/get-user")
-//    public ResponseEntity<?> getLoggedInUser(HttpSession session) {
-//        User user = (User) session.getAttribute("user");
-//        if (user == null) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-//        }
-//        return ResponseEntity.ok(user);
-//    }
+    /**
+     * Get the Loggged in User
+     */
+
+    @GetMapping("/get-user")
+    public ResponseEntity<?> getLoggedInUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
+        }
+        return ResponseEntity.ok(user);
+    }
 
 
     /**

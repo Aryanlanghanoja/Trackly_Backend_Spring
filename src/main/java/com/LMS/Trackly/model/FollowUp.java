@@ -44,6 +44,9 @@ public class FollowUp {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "user_id")
+    private String userID;
+
     // Constructors
     public FollowUp() {}
 
@@ -103,5 +106,13 @@ public class FollowUp {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }

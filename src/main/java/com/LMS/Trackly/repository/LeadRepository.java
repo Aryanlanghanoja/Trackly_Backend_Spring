@@ -16,7 +16,7 @@ public interface LeadRepository extends JpaRepository<Lead, Integer> {
     List<Lead> findByAssignedToIsNullOrAssignedTo(String assignedTo);
 
     // Find by assignedTo (employee)
-    List<Lead> findByAssignedTo(String assignedTo);
+    List<Lead> findByEmpID(Integer empID);
 
     // Find by source
     List<Lead> findBySource(String source);
