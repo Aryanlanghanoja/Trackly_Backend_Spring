@@ -27,31 +27,34 @@ public class Lead {
     private User user;
 
 
-    @Column(name = "source", nullable = false, length = 100)
+    @Column(name = "source", length = 100)
     private String source;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private Date date;
 
-    @Column(name = "client", nullable = false, length = 100)
+    @Column(name = "client", length = 100)
     private String client;
 
-    @Column(name = "district", nullable = false, length = 100)
+    @Column(name = "district", length = 100)
     private String district;
 
-    @Column(name = "contact_number", nullable = false, length = 15)
+    @Column(name = "contact_number", length = 15)
     private String contactNumber;
 
-    @Column(name = "email", nullable = false, length = 150)
+    @Column(name = "email",  length = 150)
     private String email;
 
-    @Column(name = "status", nullable = false, length = 50)
+    @Column(name = "status", length = 50)
     private String status;
 
     @Column(name = "assignedTo", length = 50)
     private String assignedTo;
 
-    public Lead(Integer leadId, String emp_name, String source, Date date, String client, String district, String contact_number, String email, String status, String assignedTo) {
+    @Column(name = "emp_id")
+    private Integer empID;
+
+    public Lead(Integer leadId, String emp_name, String source, Date date, String client, String district, String contact_number, String email , int  empID) {
         this.leadId = leadId;
         this.emp_name = emp_name;
         this.source = source;
@@ -60,8 +63,8 @@ public class Lead {
         this.district = district;
         this.contactNumber = contact_number;
         this.email = email;
-        this.status = status;
-        this.assignedTo = assignedTo;
+        this.status = "Open";
+        this.empID = empID;
     }
 
     public Integer getLeadId() {
@@ -142,5 +145,13 @@ public class Lead {
 
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public Integer getEmpID() {
+        return empID;
+    }
+
+    public void setEmpID(Integer empID) {
+        this.empID = empID;
     }
 }

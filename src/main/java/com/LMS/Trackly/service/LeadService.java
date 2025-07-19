@@ -32,6 +32,7 @@ public class LeadService {
 
     // Update lead
     public Optional<Lead> updateLead(Integer id, Lead updateData) {
+        System.out.println(updateData);
         return leadRepository.findById(id).map(lead -> {
             lead.setEmp_name(updateData.getEmp_name());
             lead.setSource(updateData.getSource());
@@ -41,7 +42,8 @@ public class LeadService {
             lead.setContact_number(updateData.getContact_number());
             lead.setEmail(updateData.getEmail());
             lead.setStatus(updateData.getStatus());
-            lead.setAssignedTo(updateData.getAssignedTo());
+            lead.setEmpID(updateData.getEmpID());
+            updateData.setAssignedTo(lead.getAssignedTo());
             return leadRepository.save(lead);
         });
     }
@@ -62,8 +64,8 @@ public class LeadService {
     }
 
     // Get leads by employee (assignedTo)
-    public List<Lead> getLeadsByEmpId(Integer assignedTo) {
-        return leadRepository.findByAssignedTo(String.valueOf(assignedTo));
+    public List<Lead> getLeadsByEmpId(Integer empId) {
+        return leadRepository.findByEmpID(empId);
     }
 
     // Get leads by source

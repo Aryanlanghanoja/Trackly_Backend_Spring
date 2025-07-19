@@ -41,7 +41,7 @@ public class LeadController {
         return ResponseEntity.ok(leads);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<Lead>> getLeadById(@PathVariable int id) {
         Optional<Lead> lead = leadService.getLeadById(id);
         if (lead == null) {
